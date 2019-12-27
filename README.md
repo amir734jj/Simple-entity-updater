@@ -31,6 +31,6 @@ var mapper = EntityUpdater.New(x => x.Assembly(typeof(EntityUpdaterTest).Assembl
 DummyClass source = ...;
 DummyClass destination = ...;
 
-_mapper.Map(source, destination);
+mapper.Map(source, destination);
 
 ```
