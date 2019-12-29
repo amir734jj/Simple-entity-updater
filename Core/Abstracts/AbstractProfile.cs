@@ -15,6 +15,13 @@ namespace SimpleEntityUpdater.Abstracts
 
             return new MapConfigComparator<TSource, TProperty>(propertySelector, Callback);
         }
+        
+        public IIdSelector<TSource, TProperty> MapMany<TProperty>(Func<TSource, IEnumerable<TProperty>> propertySelector)
+        {
+            void Callback(PropertyMapperConfig config) => _propertyMapperConfigs.Add(config);
+
+            return new IdSelectorImpl(propertySelector, Callback);
+        }
 
         public Type Type => typeof(TSource);
 
@@ -41,6 +48,24 @@ namespace SimpleEntityUpdater.Abstracts
         public IMapConfigAssignment<TSource, TProperty> Comparator(Func<TProperty, TProperty, bool> compare)
         {
             return new MapConfigAssignment<TSource, TProperty>(_propertySelector, compare, _callback);
+        }
+    }
+
+    internal class IdSelectorImpl<TSource, TProperty> : IIdSelector<TSource, TProperty> where TSource : class
+    {
+        private readonly Func<object, IEnumerable<TProperty>> _propertySelector;
+
+        private readonly Action<PropertyMapperConfig> _callback;
+
+        public IdSelectorImpl(Func<object, IEnumerable<object>> propertySelector, Action<PropertyMapperConfig> callback)
+        {
+            _propertySelector = propertySelector;
+            _callback = callback;
+        }
+
+        public IMapConfigComparator<TSource, IEnumerable<TProperty>> IdSelector<TId>(Func<TProperty, TId> idSelector)
+        {
+            return new MapConfigComparator<TSource, IEnumerable<TProperty>>(_propertySelector, _callback, idSelector);
         }
     }
 
