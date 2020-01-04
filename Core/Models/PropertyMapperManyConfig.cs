@@ -2,7 +2,7 @@ using System;
 
 namespace SimpleEntityUpdater.Models
 {
-    public class PropertyMapperConfig
+    public class PropertyMapperManyConfig
     {
         public Type Type { get; private set; }
 
@@ -12,10 +12,10 @@ namespace SimpleEntityUpdater.Models
 
         public Func<object, object> Member { get; private set; }
 
-        public static PropertyMapperConfig Build<TSource, TProperty>(
+        public static PropertyMapperConfig Build<TSource, TProperty, TId>(
             Func<TSource, TProperty> propertySelector, 
             Action<TSource, TProperty> assignment,
-            Func<TProperty, TProperty, bool> comparator
+            Func<TProperty, TId> idSelector
         )
         {
             return new PropertyMapperConfig

@@ -26,7 +26,7 @@ namespace SimpleEntityUpdater.Interfaces
 
         IMapConfigAssignment<TSource, TProperty> Comparator(Func<TProperty, TProperty, bool> compare);
     }
-    
+
     public interface IMapConfigAssignment<out TSource, out TProperty> where TSource: class
     {
         void Assignment(Action<TSource, TProperty> assign);
@@ -34,6 +34,6 @@ namespace SimpleEntityUpdater.Interfaces
 
     public interface IIdSelector<out TSource, out TProperty> where TSource: class
     {
-        public IMapConfigComparator<TSource, IEnumerable<TProperty>> IdSelector<TId>(Func<TProperty, TId> idSelector);
+        public void IdSelector<TId>(Func<TProperty, TId> idSelector);
     }
 }

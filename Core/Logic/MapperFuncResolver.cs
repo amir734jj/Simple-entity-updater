@@ -5,7 +5,7 @@ namespace SimpleEntityUpdater.Logic
 {
     public class MapperFuncResolver
     {
-        public Action<object, object> Resolve(IUnTypedEntityProfile profile) => (source, destination) =>
+        public static Action<object, object> Resolve(IUnTypedEntityProfile profile) => (source, destination) =>
         {
             foreach (var propertyMapperConfig in profile.Config.PropertyMapperConfigs)
             {

@@ -27,7 +27,7 @@ namespace SimpleEntityUpdater
         {
             var utility = new MapperFuncResolver();
 
-            _handlers = profiles.ToDictionary(x => x.Type, x => utility.Resolve(x));
+            _handlers = profiles.ToDictionary(x => x.Type, MapperFuncResolver.Resolve);
         }
 
         public void Map<T>(T source, T destination)
