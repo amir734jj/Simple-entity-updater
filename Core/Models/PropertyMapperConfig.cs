@@ -20,21 +20,24 @@ namespace SimpleEntityUpdater.Models
         {
             return new PropertyMapperConfig
             {
-                Member = x => x switch
+                // Member access un-typed
+                Member = sourceUntyped => sourceUntyped switch
                 {
                     TSource source => propertySelector(source),
                     _ => null
                 },
-                Assignment = (x, y) =>
+                // Assignment un-typed
+                Assignment = (sourceUntyped, valueUntyped) =>
                 {
-                    if (x is TSource source && y is TProperty property)
+                    if (sourceUntyped is TSource source && valueUntyped is TProperty value)
                     {
-                        assignment(source, property);
+                        assignment(source, value);
                     }
                 },
-                Comparator = (x, y) => x switch
+                // Comparator un-typed
+                Comparator = (sourceUntyped1, sourceUntyped2) => sourceUntyped1 switch
                 {
-                    TProperty property1 when y is TProperty property2 => comparator(property1, property2),
+                    TProperty property1 when sourceUntyped2 is TProperty property2 => comparator(property1, property2),
                     _ => false
                 }
             };

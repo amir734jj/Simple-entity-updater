@@ -9,9 +9,9 @@ namespace SimpleEntityUpdater.Logic
     {
         private readonly Func<TSource, IEnumerable<TProperty>> _propertySelector;
 
-        private readonly Action<PropertyMapperConfig> _callback;
+        private readonly Action<PropertyMapperManyConfig> _callback;
 
-        public IdSelectorImpl(Func<TSource, IEnumerable<TProperty>> propertySelector, Action<PropertyMapperConfig> callback)
+        public IdSelectorImpl(Func<TSource, IEnumerable<TProperty>> propertySelector, Action<PropertyMapperManyConfig> callback)
         {
             _propertySelector = propertySelector;
             _callback = callback;

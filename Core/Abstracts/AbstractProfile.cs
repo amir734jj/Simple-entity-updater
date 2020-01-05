@@ -19,7 +19,10 @@ namespace SimpleEntityUpdater.Abstracts
         
         public IIdSelector<TSource, TProperty> MapMany<TProperty>(Func<TSource, IEnumerable<TProperty>> propertySelector)
         {
-            void Callback(PropertyMapperConfig config) => _propertyMapperConfigs.Add(config);
+            void Callback(PropertyMapperManyConfig config)
+            {
+                
+            }
 
             return new IdSelectorImpl<TSource, TProperty>(propertySelector, Callback);
         }

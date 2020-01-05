@@ -8,33 +8,36 @@ namespace SimpleEntityUpdater.Models
 
         public Action<object, object> Assignment { get; private set; }
 
-        public Func<object, object, bool> Comparator { get; private set; }
+        public Func<object, object> IdSelector { get; private set; }
 
         public Func<object, object> Member { get; private set; }
 
-        public static PropertyMapperConfig Build<TSource, TProperty, TId>(
+        public static PropertyMapperManyConfig Build<TSource, TProperty, TId>(
             Func<TSource, TProperty> propertySelector, 
             Action<TSource, TProperty> assignment,
             Func<TProperty, TId> idSelector
         )
         {
-            return new PropertyMapperConfig
+            return new PropertyMapperManyConfig
             {
-                Member = x => x switch
+                // Member access un-typed
+                Member = sourceUntyped => sourceUntyped switch
                 {
                     TSource source => propertySelector(source),
                     _ => null
                 },
-                Assignment = (x, y) =>
+                // Assignment un-typed
+                Assignment = (sourceUntyped, valueUntyped) =>
                 {
-                    if (x is TSource source && y is TProperty property)
+                    if (sourceUntyped is TSource source && valueUntyped is TProperty value)
                     {
-                        assignment(source, property);
+                        assignment(source, value);
                     }
                 },
-                Comparator = (x, y) => x switch
+                // Id selector
+                IdSelector = (sourceUntyped) => sourceUntyped switch
                 {
-                    TProperty property1 when y is TProperty property2 => comparator(property1, property2),
+                    TProperty property => idSelector(property),
                     _ => false
                 }
             };
